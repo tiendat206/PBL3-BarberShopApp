@@ -75,7 +75,7 @@ namespace BarberShopApp.Controllers
 				Username = Username,
 				Password = Password,
 				FullName = FullName,
-				RoleId = 3 // Mặc định là Khách hàng
+				RoleId = 3 
 			};
 			_db.Accounts.Add(newAccount);
 			_db.SaveChanges();
@@ -93,7 +93,6 @@ namespace BarberShopApp.Controllers
 			_db.Customers.Add(newCustomer);
 			_db.SaveChanges();
 
-			// Đăng ký xong quay lại trang Login (Không dùng Index nữa)
 			return RedirectToAction("Login");
 		}
 	}

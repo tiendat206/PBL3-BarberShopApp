@@ -1,7 +1,7 @@
-﻿@{ 
+﻿@model BarberShopApp.Models.Customer
+@{ 
     Layout = null; 
 }
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -39,14 +39,6 @@
             color: white !important;
         }
         .navbar-brand span { color: var(--primary-gold); }
-
-        .nav-link {
-            color: white !important;
-            font-weight: 400;
-            margin-left: 20px;
-            transition: 0.3s;
-        }
-        .nav-link:hover { color: var(--primary-gold) !important; }
 
         .btn-logout {
             border: 1px solid var(--primary-gold);
@@ -100,7 +92,6 @@
             padding-bottom: 10px;
         }
 
-        /* BUTTONS */
         .btn-book-now {
             background-color: var(--primary-gold);
             color: black;
@@ -118,24 +109,10 @@
             transform: scale(1.02);
         }
 
-        /* TABLE */
-        .table-dark-custom {
-            color: #ccc;
-        }
-        .table-dark-custom th {
-            color: var(--primary-gold);
-            border-bottom: 1px solid #444;
-        }
-        .table-dark-custom td {
-            border-bottom: 1px solid #333;
-            padding: 15px 10px;
-            vertical-align: middle;
-        }
-        .status-badge {
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-        }
+        .table-dark-custom { color: #ccc; }
+        .table-dark-custom th { color: var(--primary-gold); border-bottom: 1px solid #444; }
+        .table-dark-custom td { border-bottom: 1px solid #333; padding: 15px 10px; }
+        .status-badge { padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; }
         .status-pending { background-color: #f39c12; color: black; }
         .status-completed { background-color: #27ae60; color: white; }
     </style>
@@ -156,12 +133,12 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-8">
-                    <div class="user-tier"><i class="fa-solid fa-crown me-2"></i>Thành viên Bạc</div>
-                    <h1 class="display-5" style="font-family: 'Playfair Display', serif;">Xin chào, Khách hàng Demo</h1>
-                    <p class="text-secondary mt-2"><i class="fa-solid fa-phone me-2"></i>0987.654.321</p>
+                    <div class="user-tier"><i class="fa-solid fa-crown me-2"></i>@Model.CustomerTier</div>
+                    <h1 class="display-5" style="font-family: 'Playfair Display', serif;">Xin chào, @Model.FullName</h1>
+                    <p class="text-secondary mt-2"><i class="fa-solid fa-phone me-2"></i>@Model.Phone</p>
                 </div>
                 <div class="col-md-4 text-md-end mt-4 mt-md-0">
-                    <h3 class="text-white mb-0">50 <span style="color: var(--primary-gold); font-size: 1.2rem;">Điểm</span></h3>
+                    <h3 class="text-white mb-0">@Model.RewardPoints <span style="color: var(--primary-gold); font-size: 1.2rem;">Điểm</span></h3>
                     <p class="text-secondary small">Tích lũy để nhận ưu đãi</p>
                 </div>
             </div>
@@ -178,15 +155,13 @@
                     <div class="d-flex justify-content-between align-items-center p-3 rounded" style="background-color: #2a2a2a; border-left: 4px solid var(--primary-gold);">
                         <div>
                             <h5 class="mb-1">Cắt tóc nam & Vuốt sáp</h5>
-                            <p class="mb-0 text-secondary"><i class="fa-solid fa-clock me-2"></i>15:00 - Hôm nay (29/03)</p>
-                            <p class="mb-0 text-secondary"><i class="fa-solid fa-scissors me-2"></i>Thợ: Nguyễn Văn A (Barber)</p>
+                            <p class="mb-0 text-secondary"><i class="fa-solid fa-clock me-2"></i>Chưa có lịch hẹn mới</p>
                         </div>
                         <div>
-                            <span class="status-badge status-pending">Chờ xử lý</span>
+                            <span class="status-badge status-pending">Trống</span>
                         </div>
                     </div>
-
-                    </div>
+                </div>
             </div>
 
             <div class="col-lg-4">
@@ -213,18 +188,11 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>15/02/2026</td>
-                                    <td>Combo Cắt Gội Massage</td>
-                                    <td>Trần B</td>
-                                    <td>150,000 đ</td>
-                                    <td><span class="status-badge status-completed">Đã hoàn thành</span></td>
-                                </tr>
-                                <tr>
-                                    <td>10/01/2026</td>
-                                    <td>Cắt tóc nam</td>
-                                    <td>Thợ bất kỳ</td>
-                                    <td>80,000 đ</td>
-                                    <td><span class="status-badge status-completed">Đã hoàn thành</span></td>
+                                    <td>--/--/----</td>
+                                    <td>Chưa có giao dịch</td>
+                                    <td>---</td>
+                                    <td>0 đ</td>
+                                    <td><span class="status-badge status-completed">N/A</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -234,6 +202,5 @@
 
         </div>
     </div>
-
 </body>
 </html>
