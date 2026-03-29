@@ -1,0 +1,227 @@
+﻿@model BarberShopApp.Models.LoginViewModel
+@{ Layout = null; }
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BarberMate - Find Your Perfect Haircut</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-gold: #ff9d00;
+            --dark-bg: #121212;
+        }
+
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-bg);
+            color: white;
+            overflow-x: hidden;
+        }
+
+        #landing-page {
+            height: 100vh;
+            width: 100%;
+            transition: all 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+            background: linear-gradient(to bottom, rgba(18,18,18,0.85), rgba(18,18,18,0.95)), url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=2074&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+
+        header { display: flex; justify-content: space-between; align-items: center; padding: 30px 60px; }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; border-bottom: 2px solid var(--primary-gold); }
+        .logo span { color: var(--primary-gold); }
+
+        .btn-gold { background: var(--primary-gold); color: black; font-weight: 600; padding: 10px 28px; border: none; position: relative; overflow: hidden; transition: all 0.3s ease; }
+        .btn-gold:hover { transform: translateY(-4px) scale(1.05); box-shadow: 0 15px 35px rgba(255,157,0,0.6); }
+        .btn-outline-gold { border: 1px solid var(--primary-gold); color: white; padding: 10px 28px; transition: 0.3s; }
+        .btn-outline-gold:hover { color: black; background: var(--primary-gold); transform: translateY(-4px); }
+
+        .hero-section { padding: 100px 60px; animation: fadeUp 1s ease; }
+        @@keyframes fadeUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        .hero-title { font-family: 'Playfair Display', serif; font-size: 5rem; line-height: 1; margin-bottom: 20px; text-transform: uppercase; }
+        .hero-title span { border-bottom: 5px solid var(--primary-gold); }
+
+        #login-overlay { position: fixed; top: 0; right: -100%; width: 100%; height: 100%; display: flex; transition: right 0.6s ease-in-out; z-index: 1000; }
+        #login-overlay.active { right: 0; }
+        .login-left-img { flex: 1.2; background: url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?q=80&w=2070&auto=format&fit=crop') center/cover; }
+        
+        .login-right-form { flex: 1; background: white; color: black; display: flex; flex-direction: column; justify-content: center; padding: 60px; position: relative; }
+        .close-login { position: absolute; top: 30px; right: 40px; font-size: 2rem; cursor: pointer; }
+        .brand-philly { font-family: 'Playfair Display', serif; font-size: 3.5rem; text-align: center; margin-bottom: 0px; }
+
+        .role-toggle { position: relative; width: 100%; height: 45px; background-color: #f1f1f1; border-radius: 30px; display: flex; margin-top: 10px; margin-bottom: 30px; overflow: hidden; transition: 0.3s; }
+        .toggle-bg { position: absolute; top: 0; left: 0; width: 50%; height: 100%; background-color: #1a1a1a; border-radius: 30px; transition: transform 0.3s ease; }
+        .toggle-btn { flex: 1; border: none; background: transparent; font-size: 14px; font-weight: 600; color: #1a1a1a; cursor: pointer; position: relative; z-index: 1; transition: color 0.3s ease; }
+        .toggle-btn.active-text { color: #fff; }
+
+        .form-control-custom { border: none; border-bottom: 1px solid #ccc; padding: 15px 5px; margin-bottom: 20px; width: 100%; transition: 0.3s; }
+        .form-control-custom:focus { outline: none; border-bottom: 2px solid var(--primary-gold); box-shadow: 0 5px 15px rgba(255,157,0,0.2); }
+        .btn-dark-login { background: #1a1a1a; color: white; width: 100%; padding: 15px; margin-top: 10px; letter-spacing: 2px; transition: 0.3s; border: none; font-weight: bold; }
+        .btn-dark-login:hover { background: black; transform: scale(1.03); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+
+        .extra-links { text-align: center; margin-top: 15px; font-size: 13px; }
+        .extra-links a { color: var(--primary-gold); text-decoration: none; font-weight: 600; cursor: pointer; }
+        .extra-links a:hover { text-decoration: underline; color: #cc7a00; }
+
+        .validation-summary-errors { background: #fff5f5; color: #d9534f; padding: 10px; border-radius: 4px; border: 1px solid #ebccd1; font-size: 0.9rem; margin-bottom: 20px; list-style: none; }
+        .validation-summary-errors ul { margin: 0; padding: 0; list-style: none; }
+
+        /* Vùng chứa form để ẩn/hiện mượt mà */
+        #form-login-container, #form-register-container {
+            transition: opacity 0.4s ease;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="landing-page">
+        <header>
+            <div class="logo">BarberShop<span>System</span></div>
+            <button class="btn btn-gold" onclick="showLogin()">Log In</button>
+        </header>
+
+        <main class="hero-section">
+            <h1 class="hero-title">Modern Barbershop<br><span>Managerment Platform</span></h1>
+            <p class="mt-4 w-50 text-secondary">Hệ thống quản lý Barber chuyên nghiệp. Đặt lịch, thanh toán và quản lý nhân viên.</p>
+            <button class="btn btn-outline-gold mt-4" onclick="showLogin()">Get Started →</button>
+        </main>
+    </div>
+
+    <div id="login-overlay">
+        <div class="login-left-img"></div>
+
+        <div class="login-right-form">
+            <span class="close-login" onclick="hideLogin()">&times;</span>
+
+            <h1 class="brand-philly">BARBERSHOP</h1>
+            <p class="text-center text-muted mb-3">Trải nghiệm phong cách quý ông đích thực</p>
+
+            <div class="role-toggle" id="role-toggle-container">
+                <div class="toggle-bg" id="toggle-bg"></div>
+                <button type="button" class="toggle-btn active-text" id="btn-staff" onclick="switchRole('staff')">Quản lý / Lễ tân</button>
+                <button type="button" class="toggle-btn" id="btn-customer" onclick="switchRole('customer')">Khách hàng</button>
+            </div>
+
+            <div id="form-login-container">
+                <form asp-action="Login" method="post" autocomplete="off">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <input type="hidden" asp-for="LoginType" id="login-type-input" value="staff" />
+
+                    <input asp-for="Username" id="username-input" class="form-control-custom" placeholder="Username" autocomplete="off" />
+                    <input asp-for="Password" type="password" class="form-control-custom" placeholder="Password" autocomplete="new-password" />
+
+                    <button type="submit" class="btn btn-dark-login">LOG IN</button>
+
+                    <div class="extra-links" id="customer-links" style="display: none;">
+                        <a onclick="toggleMode('register')">Chưa có tài khoản? Đăng ký ngay</a>
+                    </div>
+                </form>
+            </div>
+
+            <div id="form-register-container" style="display: none;">
+                <form asp-controller="Account" asp-action="Register" method="post" autocomplete="off">
+                    <h5 class="text-center mb-4" style="font-weight: 600;">ĐĂNG KÝ THÀNH VIÊN</h5>
+                    
+                   <input type="text" name="Username" class="form-control-custom" placeholder="Tên đăng nhập" autocomplete="new-username" required />
+                    
+                    <input type="text" name="FullName" class="form-control-custom" placeholder="Họ và tên" required />
+                    
+                    <input type="tel" name="Phone" class="form-control-custom" placeholder="Số điện thoại" required />
+                    
+                    <input type="text" name="DateOfBirth" class="form-control-custom" placeholder="Ngày sinh" onfocus="(this.type='date')" onblur="(this.type='text')" />
+                    
+                  <input type="password" name="Password" class="form-control-custom" placeholder="Mật khẩu" autocomplete="new-password" required />
+                    
+                    <button type="submit" class="btn btn-dark-login">TẠO TÀI KHOẢN</button>
+
+                    <div class="extra-links">
+                        <a onclick="toggleMode('login')">Đã có tài khoản? Quay lại đăng nhập</a>
+                    </div>
+                </form>
+            </div>
+
+            <p class="text-center mt-5 small text-muted">&copy; BarberManagerment System</p>
+        </div>
+    </div>
+
+    <script>
+        function showLogin() {
+            document.getElementById('login-overlay').classList.add('active');
+            document.getElementById('landing-page').style.transform = 'scale(0.9)';
+            document.getElementById('landing-page').style.filter = 'blur(5px)';
+        }
+
+        function hideLogin() {
+            document.getElementById('login-overlay').classList.remove('active');
+            document.getElementById('landing-page').style.transform = 'scale(1)';
+            document.getElementById('landing-page').style.filter = 'none';
+            // Reset form trạng thái
+            toggleMode('login');
+        }
+
+        function switchRole(role) {
+            const bg = document.getElementById('toggle-bg');
+            const btnStaff = document.getElementById('btn-staff');
+            const btnCustomer = document.getElementById('btn-customer');
+            const usernameInput = document.getElementById('username-input');
+            const customerLinks = document.getElementById('customer-links');
+            const loginTypeInput = document.getElementById('login-type-input');
+
+            if (role === 'staff') {
+                bg.style.transform = 'translateX(0)';
+                btnStaff.classList.add('active-text');
+                btnCustomer.classList.remove('active-text');
+                
+                usernameInput.placeholder = 'Username';
+                customerLinks.style.display = 'none';
+                loginTypeInput.value = 'staff';
+            } else {
+                bg.style.transform = 'translateX(100%)';
+                btnStaff.classList.remove('active-text');
+                btnCustomer.classList.add('active-text');
+                
+                usernameInput.placeholder = 'Số điện thoại / Username';
+                customerLinks.style.display = 'block';
+                loginTypeInput.value = 'customer';
+            }
+        }
+
+        function toggleMode(mode) {
+            const loginContainer = document.getElementById('form-login-container');
+            const registerContainer = document.getElementById('form-register-container');
+            const roleToggle = document.getElementById('role-toggle-container');
+
+            if (mode === 'register') {
+                loginContainer.style.display = 'none';
+                roleToggle.style.display = 'none';
+                registerContainer.style.display = 'block';
+            } else {
+                registerContainer.style.display = 'none';
+                roleToggle.style.display = 'flex';
+                loginContainer.style.display = 'block';
+                switchRole('customer');
+            }
+        }
+
+        window.onload = function() {
+            var errorDiv = document.querySelector(".validation-summary-errors");
+            if (errorDiv && errorDiv.innerText.trim() !== "") {
+                showLogin();
+                var currentType = document.getElementById('login-type-input').value;
+                switchRole(currentType || 'staff'); 
+            } else {
+                hideLogin();
+                switchRole('staff'); 
+            }
+        };
+    </script>
+</body>
+</html>

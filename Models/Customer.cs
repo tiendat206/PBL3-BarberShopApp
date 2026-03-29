@@ -1,0 +1,26 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace BarberShopApp.Models;
+
+public partial class Customer
+{
+	public int CustomerId { get; set; }
+
+	public string Phone { get; set; } = null!;
+
+	public string? FullName { get; set; }
+
+	public DateOnly? DateOfBirth { get; set; }
+
+	// THÊM 3 DÒNG NÀY VÀO ĐỂ HẾT LỖI
+	public int? AccountId { get; set; }
+
+	public int? RewardPoints { get; set; }
+
+	public string? CustomerTier { get; set; }
+
+	// Các liên kết khác giữ nguyên bên dưới...
+	public virtual ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
+	public virtual ICollection<Bill> Bills { get; set; } = new List<Bill>();
+}

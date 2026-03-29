@@ -1,0 +1,67 @@
+﻿@{
+    Layout = "_ReceptionistLayout";
+}
+
+<div class="menu-section">
+    <div class="d-flex mb-4">
+        <div class="category-pill active">Dịch vụ</div>
+        <div class="category-pill">Sản phẩm (Sáp/Gội)</div>
+        <div class="ms-auto w-25">
+            <input type="text" class="form-control" placeholder="Tìm tên dịch vụ...">
+        </div>
+    </div>
+
+    <div class="row g-3">
+        @for (int i = 1; i <= 8; i++)
+        {
+            <div class="col-md-3">
+                <div class="card service-card h-100 p-2 text-center">
+                    <img src="https://via.placeholder.com/150x100?text=Barber+Service" class="card-img-top rounded">
+                    <div class="card-body p-2">
+                        <h6 class="mb-1">Combo Cắt Gội @i</h6>
+                        <p class="text-primary fw-bold mb-0">100.000đ</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="bill-section p-3">
+    <h5 class="border-bottom pb-2"><i class="bi bi-receipt"></i> Hóa đơn chờ</h5>
+    
+    <div class="mb-3 mt-2">
+        <input type="text" class="form-control form-control-sm mb-2" placeholder="SĐT Khách hàng...">
+        <select class="form-select form-select-sm">
+            <option selected>Chọn thợ thực hiện (Barber)</option>
+            <option>Anh Tú (Đang rảnh)</option>
+            <option>Trọng Nghĩa (Bận)</option>
+        </select>
+    </div>
+
+    <div class="flex-grow-1 overflow-auto">
+        <table class="table table-sm">
+            <thead><tr class="small text-muted"><th>Tên</th><th>SL</th><th>Giá</th></tr></thead>
+            <tbody>
+                <tr><td>Cắt tóc nam</td><td>1</td><td>100k</td></tr>
+                <tr><td>Sáp vuốt tóc</td><td>1</td><td>250k</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="border-top pt-3">
+        <div class="d-flex justify-content-between mb-2">
+            <span>Tạm tính:</span>
+            <span class="fw-bold">350.000đ</span>
+        </div>
+        <div class="d-flex justify-content-between mb-3">
+            <span>Giảm giá:</span>
+            <span class="text-danger">-0đ</span>
+        </div>
+        <h4 class="d-flex justify-content-between border-top pt-2">
+            <span>TỔNG:</span>
+            <span class="text-success">350.000đ</span>
+        </h4>
+        <button class="btn btn-dark w-100 py-3 mt-3 fw-bold">THANH TOÁN (F9)</button>
+    </div>
+</div>
