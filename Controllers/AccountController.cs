@@ -14,7 +14,6 @@ namespace BarberShopApp.Controllers
 			_db = db;
 		}
 
-		// Trang hiển thị giao diện Đăng nhập
 		[HttpGet]
 		public IActionResult Login()
 		{
@@ -26,14 +25,13 @@ namespace BarberShopApp.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				// Tìm tài khoản khớp Username và Password
 				var user = _db.Accounts.FirstOrDefault(u => u.Username == model.Username && u.Password == model.Password);
 
 				if (user != null)
 				{
 					string type = model.LoginType?.ToLower() ?? "staff";
 
-					// Trường hợp: Khách hàng (Role 3)
+			
 					if (user.RoleId == 3)
 					{
 						if (type == "customer")
@@ -41,7 +39,7 @@ namespace BarberShopApp.Controllers
 
 						ModelState.AddModelError("", "Vui lòng chọn tab Khách hàng để đăng nhập.");
 					}
-					// Trường hợp: Quản lý (1) hoặc Lễ tân (2)
+					
 					else if (type == "staff")
 					{
 						if (user.RoleId == 1) return RedirectToAction("Index", "Admin");
@@ -69,7 +67,6 @@ namespace BarberShopApp.Controllers
 				return View("Login");
 			}
 
-			// 1. Tạo Account
 			var newAccount = new Account
 			{
 				Username = Username,
@@ -80,7 +77,7 @@ namespace BarberShopApp.Controllers
 			_db.Accounts.Add(newAccount);
 			_db.SaveChanges();
 
-			// 2. Tạo Customer liên kết
+		
 			var newCustomer = new Customer
 			{
 				AccountId = newAccount.AccountId,
